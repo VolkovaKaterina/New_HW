@@ -1,4 +1,3 @@
-// delay(1000).then(() => console.log("Hello!"))
 const delay = (ms) => {
     return new Promise((resolve, reject) => {
         setTimeout(() => resolve("Hello!"), ms)
@@ -41,7 +40,6 @@ getUserInfo()
                 .then(response => {
                     return response
                 })
-
         }
     )
     .then(
@@ -50,13 +48,11 @@ getUserInfo()
                 .then(response => {
                     return response
                 })
-
         }
     )
     .then(
         user => console.log(user)
     )
-
 
 new Promise(function (resolve, reject) {
     setTimeout(() => resolve({name: 'Vic', age: 21, id: 1}), 1000);
