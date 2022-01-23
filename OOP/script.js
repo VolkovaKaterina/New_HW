@@ -1,10 +1,13 @@
 class Clock {
     constructor(elem) {
         this.elem = elem
+        this.isFullformat = true;
+        this.event()
     }
 
     render() {
-        this.elem.innerHTML = this.getOptions().join(':')
+        this.elem.innerHTML = this.getOptions().join(':');
+        this.elem.style.cursor = "pointer"
     }
 
     getOptions() {
@@ -14,6 +17,42 @@ class Clock {
     getHours() {
         let date = new Date()
         return date.getHours()
+    }
+
+    event() {
+        addEventListener('click', () => {
+            this.isFullformat = !this.isFullformat
+        })
+    }
+
+    start() {
+        setInterval(() => {
+            this.render()
+        }, 1000)
+    }
+}
+
+
+class ShortFormat extends Clock {
+    constructor(element) {
+        super(element);
+    }
+
+    getOptions() {
+        let options = super.getOptions();
+        options.push(this.getMinutes());
+        return options;
+    }
+
+    getMinutes() {
+        let date = new Date()
+        return date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()
+    }
+
+    start() {
+        setInterval(() => {
+            !this.isFullformat ? this.render() : new FullFormat(this.elem).render();
+        }, 100)
     }
 }
 
@@ -25,12 +64,12 @@ class FullFormat extends Clock {
     getOptions() {
         let options = super.getOptions();
         options.push(this.getMinutes(), this.getSeconds());
-        return options
+        return options;
     }
 
     getMinutes() {
         let date = new Date()
-        return date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()
+        return date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
     }
 
     getSeconds() {
@@ -38,39 +77,15 @@ class FullFormat extends Clock {
         return date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds();
     }
 
-}
-
-class ShortFormat extends Clock {
-    constructor(element) {
-        super(element);
-    }
-
-    getOptions() {
-        let options = super.getOptions();
-        options.push(this.getMinutes());
-        return options
-    }
-
-    getMinutes() {
-        let date = new Date()
-        return date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()
+    start() {
+        setInterval(() => {
+            this.isFullformat ? this.render() : new ShortFormat(this.elem).render();
+        }, 100)
     }
 }
+
 
 const clock = document.createElement('div');
-clock.style.cursor = `pointer`
-document.body.append(clock)
-
-let short = new ShortFormat(clock);
-let full = new FullFormat(clock);
-full.render();
-let isFullTime = true;
-
-clock.addEventListener('click', ev => {
-    isFullTime ? short.render() : full.render()
-    isFullTime = !isFullTime
-})
-
-setInterval(() => {
-    isFullTime ? full.render() : short.render();
-}, 1000)
+document.body.append(clock);
+let fullFormat = new FullFormat(clock);
+fullFormat.start();
