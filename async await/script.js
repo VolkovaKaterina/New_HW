@@ -24,8 +24,9 @@ const getUserAdditionalInfo = async (userInfo) => {
 
 
 const getResult = async () => {
+    let user;
     try {
-        let user = await getUserInfo();
+        user = await getUserInfo();
         user = await getUserAvatar(user);
         user = await getUserAdditionalInfo(user);
         console.log(user)
@@ -33,11 +34,8 @@ const getResult = async () => {
     } catch (err) {
         console.log(err)
     }
-};
-
-(async () => {
-  await getResult();
-})()
+}
+getResult();
 
 //---------------------------------------------------
 async function getUser() {
@@ -52,6 +50,6 @@ async function getInfo() {
         console.log(err)
     }
 }
-(async () => {
-    await getInfo()
-})()
+
+getInfo();
+
