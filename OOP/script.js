@@ -1,8 +1,11 @@
 class Clock {
-    constructor(elem) {
+    constructor(elem, button) {
         this.elem = elem
         this.isFullformat = true;
-        this.event()
+        this.button = button;
+        this.event();
+        this.letStart = false;
+        this.buttonPress()
     }
 
     render() {
@@ -20,22 +23,40 @@ class Clock {
     }
 
     event() {
-        addEventListener('click', () => {
+        this.elem.addEventListener('click', () => {
             this.isFullformat = !this.isFullformat
         })
     }
 
+    stop() {
+        clearInterval(this.timer);
+
+    }
+
     start() {
-        setInterval(() => {
+        this.timer = setInterval(() => {
             this.render()
         }, 1000)
     }
+
+    buttonPress() {
+        this.button.addEventListener('click', () => {
+            if (this.letStart) {
+                this.start()
+                this.button.innerHTML = "Stop"
+            } else {
+                this.stop()
+                this.button.innerHTML = "Start"
+            }
+            this.letStart = !this.letStart;
+        })
+    }
+
 }
 
-
 class ShortFormat extends Clock {
-    constructor(element) {
-        super(element);
+    constructor(element, button) {
+        super(element, button);
     }
 
     getOptions() {
@@ -50,15 +71,15 @@ class ShortFormat extends Clock {
     }
 
     start() {
-        setInterval(() => {
-            !this.isFullformat ? this.render() : new FullFormat(this.elem).render();
+        this.timer = setInterval(() => {
+            !this.isFullformat ? this.render() : new FullFormat(this.elem, this.button).render();
         }, 100)
     }
 }
 
 class FullFormat extends Clock {
-    constructor(element) {
-        super(element);
+    constructor(element, button) {
+        super(element, button);
     }
 
     getOptions() {
@@ -78,14 +99,19 @@ class FullFormat extends Clock {
     }
 
     start() {
-        setInterval(() => {
-            this.isFullformat ? this.render() : new ShortFormat(this.elem).render();
+        this.timer = setInterval(() => {
+            this.isFullformat ? this.render() : new ShortFormat(this.elem, this.button).render();
         }, 100)
     }
 }
 
-
-const clock = document.createElement('div');
-document.body.append(clock);
-let fullFormat = new FullFormat(clock);
+const clock = document.querySelector('#clock');
+const button = document.querySelector(`#stop`);
+let fullFormat = new FullFormat(clock, button);
 fullFormat.start();
+
+
+
+
+
+

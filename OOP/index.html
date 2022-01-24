@@ -5,10 +5,33 @@
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <style>
+    .wrapper{
+      display: flex;
+      font-size: 18px;
+      font-weight: bold;
+      align-items: center;
+      justify-content: space-between;
+      width: 175px;
+
+    }
+    #stop{
+      background-color: #41cce3;
+      border: none;
+      color: white;
+      padding: 15px 25px;
+      text-align: center;
+      font-size: 16px;
+      border-radius: 5%;
+    }
+  </style>
   <title>Document</title>
 </head>
 <body>
-
+<div class="wrapper">
+  <div id="clock"></div>
+  <button id="stop">Stop</button>
+</div>
 <script defer src="script.js"></script>
 </body>
 </html>
