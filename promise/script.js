@@ -31,23 +31,12 @@ function getUserAdditionalInfo(userInfo) {
 getUserInfo()
     .then(
         response => {
-            return response
+            return getUserAvatar(response)
         }
     )
     .then(
-        user => {
-            getUserAvatar(user)
-                .then(response => {
-                    return response
-                })
-        }
-    )
-    .then(
-        user => {
-            getUserAdditionalInfo(user)
-                .then(response => {
-                    return response
-                })
+        response => {
+            return getUserAdditionalInfo(response)
         }
     )
     .then(
