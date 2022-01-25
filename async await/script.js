@@ -24,13 +24,13 @@ const getUserAdditionalInfo = async (userInfo) => {
 
 
 const getResult = async () => {
-    let user;
+
     try {
-        user = await getUserInfo();
-        user = await getUserAvatar(user);
-        user = await getUserAdditionalInfo(user);
-        console.log(user)
-        return user
+        let user = await getUserInfo();
+        let userAvatar = await getUserAvatar(user);
+        let userInfo = await getUserAdditionalInfo(user);
+        console.log(userInfo)
+        return userInfo
     } catch (err) {
         console.log(err)
     }
